@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextField!
     
@@ -28,7 +28,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
         textField.keyboardType = .emailAddress
     }
     
+    @IBAction func doneButtonTapped(_ sender: UIButton) {
+        if textField.text?.isEmpty ?? true {
+            textField.placeholder = "Please enter an email"
+        } else {
+            textField.text = ""
+            textField.placeholder = "email"
+            self.view.endEditing(true)
+        }
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        textField.placeholder = "email"
         self.view.endEditing(true)
     }
     
@@ -36,7 +49,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let maxLength = 10
         let currentString = (textField.text ?? "") as NSString
         let newString = currentString.replacingCharacters(in: range, with: string)
-
         return newString.count <= maxLength
     }
     
@@ -50,16 +62,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         textField.placeholder = "email"
         self.view.endEditing(true)
        return true
-    }
-    
-    @IBAction func doneButtonTapped(_ sender: UIButton) {
-        if textField.text?.isEmpty ?? true {
-            textField.placeholder = "Please enter an email"
-        } else {
-            textField.text = ""
-            textField.placeholder = "email"
-            self.view.endEditing(true)
-        }
     }
 }
 
